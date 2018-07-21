@@ -2,7 +2,6 @@
 /*
 Multiple Line Chart using D3
 
-
 */
 
 function makeLineChart(dataset, xName, yObjs, axisLabel) {
@@ -16,10 +15,12 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
      */
 
     chartObj.data = dataset;
-    chartObj.margin = {top: 15, right: 60, bottom: 30, left: 50};
-    chartObj.width = 650 - chartObj.margin.left - chartObj.margin.right;
+    chartObj.margin = {top: 15, right: 00, bottom: 30, left: 80};
+    chartObj.width = 900 - chartObj.margin.left - chartObj.margin.right;
     chartObj.height = 480 - chartObj.margin.top - chartObj.margin.bottom;
 
+console.log(chartObj.width );
+console.log(chartObj.height );
 // So we can pass the x and y as strings when creating the function
     chartObj.xFunct = function(d){ return d[xName]; };
 
@@ -86,41 +87,8 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
         }).y(getYScaleFn(yObj)).curve(d3.curveLinear);
     }
     
-
     chartObj.svg;
 
-// Change chart size according to window size
-    chartObj.update_svg_size = function () {
-        chartObj.width = parseInt(chartObj.chartDiv.style("width"), 10) - (chartObj.margin.left + chartObj.margin.right);
-
-        chartObj.height = parseInt(chartObj.chartDiv.style("height"), 10) - (chartObj.margin.top + chartObj.margin.bottom);
-
-        /* Update the range of the scale with new width/height */
-        chartObj.xScale.range([0, chartObj.width]);
-        chartObj.yScale.range([chartObj.height, 0]);
-
-        if (!chartObj.svg) {return false;}
-
-        /* Else Update the axis with the new scale */
-        chartObj.svg.select('.x.axis').attr("transform", "translate(0," + chartObj.height + ")").call(chartObj.xAxis);
-        chartObj.svg.select('.x.axis .label').attr("x", chartObj.width / 2);
-
-        chartObj.svg.select('.y.axis').call(chartObj.yAxis);
-        chartObj.svg.select('.y.axis .label').attr("x", -chartObj.height / 2);
-
-        /* Force D3 to recalculate and update the line */
-        for (var y  in yObjs) {
-            yObjs[y].path.attr("d", yObjs[y].line);
-        }
-        
-
-        d3.selectAll(".focus.line").attr("y2", chartObj.height);
-
-        chartObj.chartDiv.select('svg').attr("width", chartObj.width + (chartObj.margin.left + chartObj.margin.right)).attr("height", chartObj.height + (chartObj.margin.top + chartObj.margin.bottom));
-
-        chartObj.svg.select(".overlay").attr("width", chartObj.width).attr("height", chartObj.height);
-        return chartObj;
-    };
 
 // Bind the chart
     chartObj.bind = function (selector) {
@@ -129,8 +97,6 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
         chartObj.mainDiv.append("div").attr("class", "inner-wrapper").append("div").attr("class", "outer-box").append("div").attr("class", "inner-box");
         chartSelector = selector + " .inner-box";
         chartObj.chartDiv = d3.select(chartSelector);
-        d3.select(window).on('resize.' + chartSelector, chartObj.update_svg_size);
-        chartObj.update_svg_size();
         return chartObj;
     };
 

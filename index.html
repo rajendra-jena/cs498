@@ -125,7 +125,7 @@ var parseTime = d3.timeParse("%d/%m/%Y");
 
 
 // Chart 1
-    d3.csv('rebased_prices.csv')
+    d3.csv('https://github.com/weiwangchun/cs498/blob/master/rebased_prices.csv')
     	.row(function(d){
 		 	return {
 		 		date:parseTime(d.Date), 
@@ -161,7 +161,7 @@ var parseTime = d3.timeParse("%d/%m/%Y");
 
 
 // Chart 3
-    d3.csv('rebased_prices.csv')
+    d3.csv('https://github.com/weiwangchun/cs498/blob/master/rebased_prices.csv')
     	.row(function(d){
 		 	return {
 		 		date:parseTime(d.Date), 

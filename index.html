@@ -7,7 +7,6 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>				<!-- D3 library for assignment -->
     <script src="lineChart.js" charset="utf-8"></script>				<!-- JS code for chart -->
 
-
 </head>
 
 
@@ -80,7 +79,7 @@
 
 <div class="slideshow_box">
 Wang Chun Wei (wcwei2) <br />
-CS498 Data Visualization, Final Project <br />
+CS498 Data Visualization, Final Project, JS D3 Application<br />
 University of Illinois, Urbana-Champaign 
 </div>
 
@@ -137,7 +136,7 @@ var parseTime = d3.timeParse("%d/%m/%Y");
 		})
 		.get(function(error, data){
 
-			console.log(data); // check data
+			//console.log(data); // check data
 
 		    var chart = makeLineChart(data, 'date', {
 		        'Bitcoin': {column: 'bitcoin'},
@@ -171,7 +170,7 @@ var parseTime = d3.timeParse("%d/%m/%Y");
 		})
 		.get(function(error, data){
 
-			console.log(data); // check data
+			//console.log(data); // check data
 
 		    var chart3 = makeLineChart(data, 'date', {
 		        'Ripple': {column: 'ripple'}

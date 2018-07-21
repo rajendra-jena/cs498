@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CS 498 DV (wcwei2)</title>
+    <link rel="stylesheet" type="text/css" href="lineChartFormat.css">  <!-- CSS stylesheet for assignment -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>				<!-- D3 library for assignment -->
+    <script src="lineChart.js" charset="utf-8"></script>				<!-- JS code for chart -->
+
+
+</head>
+
+
+<body>
+
+<!-- slide show container -->
+<div class="slideshow_box">
+
+
+	<!-- CHART 1 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
+  <div class="slides fade">
+  	<h1> Testing </h1>
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a nisl auctor, cursus felis sit amet, suscipit libero. Duis tempor risus ac laoreet placerat. Mauris eleifend diam mattis neque congue, sit amet viverra libero commodo. Aliquam gravida nunc nibh, sit amet sagittis eros ornare eu. Donec sed aliquam mi, non elementum mauris. Mauris in nunc vel ipsum pretium congue id eu massa. Donec vel turpis at ipsum dignissim porttitor in interdum risus. In nec nunc nec massa congue pretium. 
+	<div class="page_number">1 / 3</div>
+	<div class="chart-wrapper" id="chart-line1">
+		<div class="chart-title">
+	        Cumulative Profit and Loss
+	    </div>
+	</div>
+    <div class="footnote"> source: www.coinmarketcap.com </div>
+  </div>
+
+
+	<!-- CHART 2 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
+  <div class="slides fade">
+  	 <h1> Testing Chart 2 </h1>
+	In nec nunc nec massa congue pretium. Fusce a nisl auctor, cursus felis sit amet, suscipit libero. Duis tempor risus ac laoreet placerat. Mauris eleifend diam mattis neque congue, sit amet viverra libero commodo. Aliquam gravida nunc nibh, sit amet sagittis eros ornare eu. Donec sed aliquam mi, non elementum mauris. Mauris in nunc vel ipsum pretium congue id eu massa. Donec vel turpis at ipsum dignissim porttitor in interdum risus. In nec nunc nec massa congue pretium. 
+    <div class="page_number">2 / 3</div>
+	<div class="chart-wrapper" id="chart-line2">
+		<div class="chart-title">
+	        Cell Title
+	    </div>
+	</div>
+    <div class="footnote"> source: www.coinmarketcap.com </div>
+  </div>
+
+
+	<!-- CHART 3 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
+  <div class="slides fade">
+  	 <h1> Testing Chart 3 </h1>
+	Marcus eros ornare eu. Donec sed aliquam mi, non elementum mauris. Mauris in nunc vel ipsum pretium congue id eu massa. Donec vel turpis at ipsum dignissim porttitor in interdum risus. In nec nunc nec massa congue pretium. 
+    <div class="page_number">3 / 3</div>
+  	<div class="chart-wrapper" id="chart-line3">
+		<div class="chart-title">
+	        Cell Title
+	    </div>
+	</div>
+    <div class="footnote"> source: www.coinmarketcap.com </div>  
+
+  </div>
+
+
+  <!-- NEXT AND PREVIOUS ARROWS -->
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+</div>
+<br>
+
+<!-- add dots and circles -->
+
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span>
+  <span class="dot" onclick="currentSlide(2)"></span>
+  <span class="dot" onclick="currentSlide(3)"></span>
+</div>
+
+
+<br>
+
+<div class="slideshow_box">
+Wang Chun Wei (wcwei2) <br />
+CS498 Data Visualization, Final Project <br />
+University of Illinois, Urbana-Champaign 
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("slides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+} 
+
+
+
+var parseTime = d3.timeParse("%d/%m/%Y");
+
+
+// Chart 1
+    d3.csv('rebased_prices.csv')
+    	.row(function(d){
+		 	return {
+		 		date:parseTime(d.Date), 
+		 		bitcoin: +d.Bitcoin,
+		 		litecoin: +d.Litecoin,
+		 		ethereum: +d.Ethereum
+		 	};
+		})
+		.get(function(error, data){
+
+			console.log(data); // check data
+
+		    var chart = makeLineChart(data, 'date', {
+		        'Bitcoin': {column: 'bitcoin'},
+		        'Litecoin': {column: 'litecoin'},
+		        'Ethereum': {column: 'ethereum'}
+		    }, {xAxis: 'Date', yAxis: 'Amount'});
+		    chart.bind("#chart-line1");
+		    chart.render();
+
+		    var chart2 = makeLineChart(data, 'date', {
+		        'Bitcoin': {column: 'bitcoin'},
+		        'Litecoin': {column: 'litecoin'}
+		    }, {xAxis: 'Date', yAxis: 'Amount'});
+		    chart2.bind("#chart-line2");
+		    chart2.render();
+
+
+		});
+
+
+
+
+
+// Chart 3
+    d3.csv('rebased_prices.csv')
+    	.row(function(d){
+		 	return {
+		 		date:parseTime(d.Date), 
+		 		ripple: +d.Ripple
+		 	};
+		})
+		.get(function(error, data){
+
+			console.log(data); // check data
+
+		    var chart3 = makeLineChart(data, 'date', {
+		        'Ripple': {column: 'ripple'}
+		    }, {xAxis: 'Date', yAxis: 'Amount'});
+		    chart3.bind("#chart-line3");
+		    chart3.render();
+		});
+
+
+
+</script>
+
+
+</body>
+
+
+</html>

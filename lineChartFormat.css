@@ -7,7 +7,6 @@ body {
 
 /* Slideshow styles */
 
-
 /* interactive slideshow container */
 .slideshow_box {
   max-width: 1000px;
@@ -71,27 +70,19 @@ body {
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
-  transition: background-color 0.6s ease;
+  transition: background-color 0.5s ease;
 }
 
-.active, .dot:hover {
+.dot_active, .dot:hover {
   background-color: #717171;
 }
 
-/* Fading animation */
+/* Fading animation between slides */
 .fade {
- /* -webkit-animation-name: fade;
-  -webkit-animation-duration: 2s; */
   animation-name: fade;
   animation-duration: 2s;
 }
 
-/*
-@-webkit-keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
-*/
 @keyframes fade {
   from {opacity: .2}
   to {opacity: 1}
@@ -99,22 +90,22 @@ body {
 
 
 
-/* Collapsible About Section */
+/* Collapsible About This Visualization Section */
 .collapsible, .content {
     background-color: rgba(0, 0, 0, 0);
     color: dodgerblue;
     cursor: pointer;
-    width: 50%;
+    width: 100%;
     border: none;
-    padding: 0 18px;
-    margin-left: 480px;
+    padding: 0 18px; 
+    margin: 0 auto;
     text-align: left;
     outline: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .active, .collapsible:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .content {
@@ -124,6 +115,7 @@ body {
     color: black;
      font: 14px 'Helvetica';
 }
+
 
 
 
@@ -196,7 +188,7 @@ body {
 .chart-wrapper .legend p {
     display:inline;
     font-size: 0.8em;
-    font-family: sans-serif;
+    font-family: 'Helvetica';
     font-weight: 600;
 }
 .chart-wrapper .legend .series-marker {
@@ -221,14 +213,15 @@ body {
   fill-opacity: 15%;
 }
 
-/*  rect tooltip  */
+/*  prices tooltip  */
 .chart-wrapper .focus rect {
-    fill: grey;
-    opacity: 0.4;
+    fill: dodgerblue;
+    opacity: 0.5;
     border-radius: 4px;
     font: 14px sans-serif;
-    width: 200px;
-    height: 20px;
+    border-radius: 4px; 
+    /*width: 200px;
+    height: 20px;*/
 }
 
 .chart-wrapper .focus.line {
@@ -237,7 +230,4 @@ body {
     stroke-width: 1;
     opacity: 0.5;
 }
-@media (max-width:500px){
-    .chart-wrapper .line {stroke-width: 3px;}
-    .chart-wrapper .legend {font-size: 14px;}
-}
+

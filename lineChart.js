@@ -1,4 +1,3 @@
-
 /*
 Multiple Line Chart using D3
 
@@ -6,7 +5,10 @@ Multiple Line Chart using D3
 
 function makeLineChart(dataset, xName, yObjs, axisLabel) {
     var chartObj = {};
-    var color = d3.scaleLinear;
+
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+
     chartObj.xAxisLabel = axisLabel.xAxis;      // date
     chartObj.yAxisLabel = axisLabel.yAxis;      // cumulative PnL
     /*
@@ -15,30 +17,21 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
      */
 
     chartObj.data = dataset;
-    chartObj.margin = {top: 15, right: 00, bottom: 30, left: 80};
+    chartObj.margin = {top: 15, right: 40, bottom: 30, left: 80};
     chartObj.width = 900 - chartObj.margin.left - chartObj.margin.right;
     chartObj.height = 480 - chartObj.margin.top - chartObj.margin.bottom;
 
-console.log(chartObj.width );
-console.log(chartObj.height );
+
 // So we can pass the x and y as strings when creating the function
     chartObj.xFunct = function(d){ return d[xName]; };
-
-
-// For each yObjs argument, create a yFunction
-    function getYFn(column) {
-        return function (d) {
-            return d[column];
-        };
-    }
-
-// Object instead of array
+    function getYFn(column) { return function (d) { return d[column]; }; }
     chartObj.yFuncts = [];
     for (var y  in yObjs) {
         yObjs[y].name = y;
         yObjs[y].yFunct = getYFn(yObjs[y].column); //Need this  list for the ymax function
         chartObj.yFuncts.push(yObjs[y].yFunct);
     }
+
 
 //Formatter functions for the axes
     chartObj.formatAsNumber = d3.format(".0f");
@@ -49,17 +42,16 @@ console.log(chartObj.height );
             return d3.format(".2f")(d);
         } else {
             return d3.format(".0f")(d);
-        }
-        
+        } 
     };
 
-    chartObj.xFormatter = chartObj.formatAsNumber;
+    //chartObj.xFormatter = chartObj.formatAsNumber;   // Need to format this a Date
     chartObj.yFormatter = chartObj.formatAsFloat;
-
     chartObj.bisectYear = d3.bisector(chartObj.xFunct).left; //< Can be overridden in definition
 
-//Create scale functions
-    chartObj.xScale = d3.scaleLinear().range([0, chartObj.width]).domain(d3.extent(chartObj.data, chartObj.xFunct)); //< Can be overridden in definition
+//Create scale functions (chg scaleLinear to scaleTime)
+   chartObj.xScale = d3.scaleTime().range([0, chartObj.width]).domain(d3.extent(chartObj.data, chartObj.xFunct)); //< Can be overridden in definition
+   //chartObj.xScale = d3.scaleTime().rangeRound([0, chartObj.width])
 
 // Get the max of every yFunct
     chartObj.max = function (fn) {
@@ -67,13 +59,10 @@ console.log(chartObj.height );
     };
     chartObj.yScale = d3.scaleLinear().range([chartObj.height, 0]).domain([0, d3.max(chartObj.yFuncts.map(chartObj.max))]);
 
-    chartObj.formatAsYear = d3.format("");
-
 //Create axis
-    chartObj.xAxis = d3.axisBottom().scale(chartObj.xScale).tickFormat(chartObj.xFormatter); //< Can be overridden in definition
-
+   // chartObj.xAxis = d3.axisBottom().scale(chartObj.xScale).tickFormat(chartObj.xFormatter); //< Can be overridden in definition (REMOVE THIS)
+    chartObj.xAxis = d3.axisBottom().scale(chartObj.xScale)
     chartObj.yAxis = d3.axisLeft().scale(chartObj.yScale).tickFormat(chartObj.yFormatter); //< Can be overridden in definition
-
 
 // Build line building functions
     function getYScaleFn(yObj) {
@@ -87,8 +76,8 @@ console.log(chartObj.height );
         }).y(getYScaleFn(yObj)).curve(d3.curveLinear);
     }
     
-    chartObj.svg;
-
+    // create svg
+   // chartObj.svg;
 
 // Bind the chart
     chartObj.bind = function (selector) {
@@ -109,12 +98,12 @@ console.log(chartObj.height );
         for (var y  in yObjs) {
             yObjs[y].path = chartObj.svg.append("path").datum(chartObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
                 focus.style("display", null);
+
             }).on("mouseout", function () {
                 focus.transition().delay(700).style("display", "none");
             }).on("mousemove", mousemove);
         }
         
-
         // Draw Axis
         chartObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + chartObj.height + ")").call(chartObj.xAxis).append("text").attr("class", "label").attr("x", chartObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(chartObj.xAxisLabel);
 
@@ -122,12 +111,11 @@ console.log(chartObj.height );
 
         //Draw tooltips
         var focus = chartObj.svg.append("g").attr("class", "focus").style("display", "none");
-
         for (var y  in yObjs) {
             yObjs[y].tooltip = focus.append("g");
             yObjs[y].tooltip.append("circle").attr("r", 5);
-            yObjs[y].tooltip.append("rect").attr("x", 8).attr("y","-5").attr("width",22).attr("height",'0.75em');
-            yObjs[y].tooltip.append("text").attr("x", 9).attr("dy", ".35em");
+            yObjs[y].tooltip.append("rect").attr("x", 8).attr("y","-5").attr("width",40).attr("height",10).attr("border-radius", "2px");
+           yObjs[y].tooltip.append("text").attr("x", 9).attr("dy", 5);
         }
 
         // Year label
@@ -165,7 +153,9 @@ console.log(chartObj.height );
             }
 
             focus.select(".focus.line").attr("transform", "translate(" + chartObj.xScale(chartObj.xFunct(d)) + ")").attr("y1", minY);
-            focus.select(".focus.year").text("Year: " + chartObj.xFormatter(chartObj.xFunct(d)));
+           // focus.select(".focus.year").text("Year: " + chartObj.xFormatter(chartObj.xFunct(d)));
+           focus.select(".focus.year").text("Date: " + chartObj.xFunct(d));
+
         }
 
     };

@@ -5,13 +5,44 @@
     <title>CS 498 DV (wcwei2)</title>
     <link rel="stylesheet" type="text/css" href="lineChartFormat.css">  <!-- CSS stylesheet for assignment -->
     <script src="https://d3js.org/d3.v4.min.js"></script>				<!-- D3 library for assignment -->
-    <script src="lineChart.js" charset="utf-8"></script>				<!-- JS code for chart -->
-
+    <script src="lineChart.js" charset="utf-8"></script>				<!-- JS D3 code for line chart -->
+    <script src="scatterPlot.js" charset="utf-8"></script>				<!-- JS D3 code for scatterplot -->
 </head>
 
 
 <body>
 
+
+<button class="collapsible"> About this Visualization </button>
+<div class="content">
+ Wang Chun Wei (wcwei2) <br />
+ CS498 Data Visualization, Final Project, JS D3 Application <br />
+ University of Illinois, Urbana-Champaign 
+<br>
+
+<h4>Hybrid Structure</h4>
+            <p>
+                The visualization uses the Interactive Slideshow structure. At the top of the page, there are 6 buttons
+                numbered 1 through 6. By clicking through these buttons sequentially, users are guided through the
+                slides.
+                Upon navigation, parameters are changed and annotations are updated to describe the new view.
+</p>
+
+ <h4>Scene Utilization</h4>
+            <p>
+                This visualization utilizes slides to create scenes. The scenes have a very consistent layout. On the
+                top
+                of the left side are four parameter selectors. Below those selectors is a block of annotation text that
+                provides insight into the data. On the right side is a line chart that displays the data that satisfies
+                the parameters.
+            </p>
+
+            <h4>Annotations</h4>
+            <p>
+                Each slide contains a block of text annotating the view with insights into the data. This text provides
+                some domain information to help the reader understand what they are seeing.
+</p>
+</div>
 
 
 
@@ -39,6 +70,7 @@
   <div class="slides fade">
   	 <h1> The Bubble: Systemic Appreciation of All Coins </h1>
 	The 2017 Rally has been termed as a bubble. 
+	Below we plot the market capitaloization 
 
     <div class="page_number">2 / 3</div>
 	<div class="chart-wrapper" id="chart-line2">
@@ -49,8 +81,9 @@
 
 	<!-- CHART 3 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
   <div class="slides fade">
-  	 <h1> Choose Wisely: Risk Return Characteristics Have Differed </h1>
-	Marcus eros ornare eu. Donec sed aliquam mi, non elementum mauris. Mauris in nunc vel ipsum pretium congue id eu massa. Donec vel turpis at ipsum dignissim porttitor in interdum risus. In nec nunc nec massa congue pretium. 
+  	 <h1>  Risk Return Characteristics </h1>
+	We see a positive trend between risk and returns in the cryptocurrency universe throughout 2017.  This is especially true with the larger market capitalization coins.
+	More generally we note that cryptocurrency risk is significantly higher than traditional asset classes. 
     <div class="page_number">3 / 3</div>
   	<div class="chart-wrapper" id="chart-line3">
 	</div>
@@ -77,42 +110,7 @@
   <span class="dot" onclick="currentSlide(3)"></span>
 </div>
 
-
 <br>
-
-<button class="collapsible">About this Visualization</button>
-<div class="content">
- Wang Chun Wei (wcwei2) <br />
- CS498 Data Visualization, Final Project, JS D3 Application <br />
- University of Illinois, Urbana-Champaign 
-<br>
-
-
-<h4>Hybrid Structure</h4>
-            <p>
-                The visualization uses the Interactive Slideshow structure. At the top of the page, there are 6 buttons
-                numbered 1 through 6. By clicking through these buttons sequentially, users are guided through the
-                slides.
-                Upon navigation, parameters are changed and annotations are updated to describe the new view.
-</p>
-
- <h4>Scene Utilization</h4>
-            <p>
-                This visualization utilizes slides to create scenes. The scenes have a very consistent layout. On the
-                top
-                of the left side are four parameter selectors. Below those selectors is a block of annotation text that
-                provides insight into the data. On the right side is a line chart that displays the data that satisfies
-                the parameters.
-            </p>
-
-            <h4>Annotations</h4>
-            <p>
-                Each slide contains a block of text annotating the view with insights into the data. This text provides
-                some domain information to help the reader understand what they are seeing.
-</p>
-
-
-</div>
 
 
 
@@ -129,11 +127,12 @@ function plusSlides(n) {
   showSlides(slideIndex += n);
 }
 
-// Thumbnail image controls
+// Dot controls
 function currentSlide(n) {
   showSlides(slideIndex = n);
 }
 
+// Toggle slide display and dots
 function showSlides(n) {
   var i;
   var slides = document.getElementsByClassName("slides");
@@ -144,17 +143,16 @@ function showSlides(n) {
       slides[i].style.display = "none";
   }
   for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
+      dots[i].className = dots[i].className.replace(" dot_active", "");
   }
   slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
+  dots[slideIndex-1].className += " dot_active";
 } 
 
-
-
+// parse date
 var parseTime = d3.timeParse("%d/%m/%Y");
 
-// Chart 1
+// Chart 1 and 2; Line Charts
 //https://github.com/weiwangchun/cs498/blob/master/rebased_prices.csv
     d3.csv('rebased_prices.csv')
     	.row(function(d){
@@ -177,7 +175,6 @@ var parseTime = d3.timeParse("%d/%m/%Y");
 		    chart.bind("#chart-line1");
 		    chart.render();
 
-
 		    var chart2 = makeLineChart(data, 'date', {
 		        'Bitcoin': {column: 'bitcoin'},
 		        'Ethereum': {column: 'ethereum'}
@@ -188,24 +185,32 @@ var parseTime = d3.timeParse("%d/%m/%Y");
 		});
 
 
-// Chart 3
-    d3.csv('rebased_prices.csv')
+// Chart 3; Scatterplots
+    d3.csv('crypto_descriptive_2017.csv')
     	.row(function(d){
 		 	return {
-		 		date:parseTime(d.Date), 
-		 		ripple: +d.Ripple
+		 		ticker: d.TICKER,
+		 		name: d.NAME,
+		 		return: +d.RETURN,
+		 		risk: +d.RISK,
+		 		mktcap: +d.MKTCAP,
+		 		turnover: +d.TURNOVER_RATIO,
+		 		volume: +d.VOLUME
 		 	};
 		})
 		.get(function(error, data){
 
-			//console.log(data); // check data
+			console.log(data); // check data
+			var chart3 = makeScatterplot(data, {xAxis: 'Risk', yAxis: 'Return'});
+			chart3.bind("#chart-line3");
+			chart3.render();
 
-		    var chart3 = makeLineChart(data, 'date', {
-		        'Ripple': {column: 'ripple'}
-		    }, {xAxis: 'Date', yAxis: 'Amount'});
-		    chart3.bind("#chart-line3");
-		    chart3.render();
+
 		});
+
+
+
+
 
 
 

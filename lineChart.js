@@ -1,29 +1,23 @@
 /*
-Multiple Line Chart using D3
+ * Multiple Line Chart using D3
+ * 
+ **/
 
-*/
+function makeLineChart(dataset, xName, yObjs, axisLabel, annotationLabel) {
+    
 
-function makeLineChart(dataset, xName, yObjs, axisLabel) {
     var chartObj = {};
-
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-
-    chartObj.xAxisLabel = axisLabel.xAxis;      // date
-    chartObj.yAxisLabel = axisLabel.yAxis;      // cumulative PnL
-    /*
-     yObjsects format:
-     {y1:{column:'',name:'name',color:'color'},y2}
-     */
+    chartObj.xAxisLabel = axisLabel.xAxis;
+    chartObj.yAxisLabel = axisLabel.yAxis;
 
     chartObj.data = dataset;
-    chartObj.margin = {top: 15, right: 40, bottom: 30, left: 80};
+    chartObj.margin = {top: 15, right: 40, bottom: 30, left: 90};
     chartObj.width = 900 - chartObj.margin.left - chartObj.margin.right;
     chartObj.height = 480 - chartObj.margin.top - chartObj.margin.bottom;
 
 
 // So we can pass the x and y as strings when creating the function
-    chartObj.xFunct = function(d){ return d[xName]; };
+    chartObj.xFunct = function(d) { return d[xName]; };
     function getYFn(column) { return function (d) { return d[column]; }; }
     chartObj.yFuncts = [];
     for (var y  in yObjs) {
@@ -32,10 +26,10 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
         chartObj.yFuncts.push(yObjs[y].yFunct);
     }
 
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 //Formatter functions for the axes
     chartObj.formatAsNumber = d3.format(".0f");
-    chartObj.formatAsDecimal = d3.format(".2f");
     chartObj.formatAsCurrency = d3.format("$.2f");
     chartObj.formatAsFloat = function (d) {
         if (d % 1 !== 0) {
@@ -44,9 +38,6 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
             return d3.format(".0f")(d);
         } 
     };
-
-    //chartObj.xFormatter = chartObj.formatAsNumber;   // Need to format this a Date
-    chartObj.yFormatter = chartObj.formatAsFloat;
     chartObj.bisectYear = d3.bisector(chartObj.xFunct).left; //< Can be overridden in definition
 
 //Create scale functions (chg scaleLinear to scaleTime)
@@ -57,12 +48,12 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
     chartObj.max = function (fn) {
         return d3.max(chartObj.data, fn);
     };
-    chartObj.yScale = d3.scaleLinear().range([chartObj.height, 0]).domain([0, d3.max(chartObj.yFuncts.map(chartObj.max))]);
+    chartObj.yScale = d3.scaleLinear().range([chartObj.height, 0]).domain([0.7, d3.max(chartObj.yFuncts.map(chartObj.max))]);
 
 //Create axis
    // chartObj.xAxis = d3.axisBottom().scale(chartObj.xScale).tickFormat(chartObj.xFormatter); //< Can be overridden in definition (REMOVE THIS)
     chartObj.xAxis = d3.axisBottom().scale(chartObj.xScale)
-    chartObj.yAxis = d3.axisLeft().scale(chartObj.yScale).tickFormat(chartObj.yFormatter); //< Can be overridden in definition
+    chartObj.yAxis = d3.axisLeft().scale(chartObj.yScale).tickFormat(chartObj.formatAsFloat); //< Can be overridden in definition
 
 // Build line building functions
     function getYScaleFn(yObj) {
@@ -104,10 +95,30 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
             }).on("mousemove", mousemove);
         }
         
-        // Draw Axis
-        chartObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + chartObj.height + ")").call(chartObj.xAxis).append("text").attr("class", "label").attr("x", chartObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(chartObj.xAxisLabel);
+        // Draw Y and X Axis
+        chartObj.svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + chartObj.height + ")")
+            .call(chartObj.xAxis)
+        .append("text")//.attr("class", "label")
+            .attr("x", chartObj.width )
+            .attr("y", 30)
+            .attr("fill", "#000")
+            .style("text-anchor", "middle")
+            .text(chartObj.xAxisLabel);
 
-        chartObj.svg.append("g").attr("class", "y axis").call(chartObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -chartObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(chartObj.yAxisLabel);
+        chartObj.svg.append("g")
+            .attr("class", "y axis")
+            .call(chartObj.yAxis)
+        .append("text")
+            //.attr("class", "label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -40)
+            .attr("x", -chartObj.height / 2)
+            .attr("dy", ".1em")
+            .attr("fill", "#000")
+            .style("text-anchor", "middle")
+            .text(chartObj.yAxisLabel);
 
         //Draw tooltips
         var focus = chartObj.svg.append("g").attr("class", "focus").style("display", "none");
@@ -123,7 +134,7 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
         // Focus line
         focus.append("line").attr("class", "focus line").attr("y1", 0).attr("y2", chartObj.height);
 
-        //Draw legend
+        // Draw legend
         var legend = chartObj.mainDiv.append('div').attr("class", "legend");
         for (var y  in yObjs) {
             series = legend.append('div');
@@ -131,6 +142,28 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
             series.append('p').text(y);
             yObjs[y].legend = series;
         }
+
+        // Add Annotations
+        chartObj.svg.selectAll("text.label")
+            .data(annotationLabel)
+            .enter()
+            .append("text")
+            .attr('x', function(d) { return chartObj.xScale(d.x)})
+            .attr('y', function(d) { return chartObj.yScale(d.y)})
+            .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end'})
+            .text(function(d) { return d.text});
+
+         chartObj.svg.selectAll("text.label")
+            .data(annotationLabel)
+            .enter()
+            .append("line")
+            .attr("x1", function(d) {  return chartObj.xScale(d.x)})
+            .attr("x2", function(d) {  return chartObj.xScale(d.x)})
+            .attr("y1", function(d) {  return chartObj.yScale(d.y)})
+            .attr("y2", function(d) {  return chartObj.yScale(d.y0)})
+            .style("stroke", "black")
+            .style("stroke-dasharray", "1,3");
+
 
         // Overlay to capture hover
         chartObj.svg.append("rect").attr("class", "overlay").attr("width", chartObj.width).attr("height", chartObj.height).on("mouseover", function () {
@@ -140,6 +173,7 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
         }).on("mousemove", mousemove);
 
         return chartObj;
+
         function mousemove() {
             var x0 = chartObj.xScale.invert(d3.mouse(this)[0]), i = chartObj.bisectYear(dataset, x0, 1), d0 = chartObj.data[i - 1], d1 = chartObj.data[i];
             try {
@@ -148,7 +182,7 @@ function makeLineChart(dataset, xName, yObjs, axisLabel) {
             minY = chartObj.height;
             for (var y  in yObjs) {
                 yObjs[y].tooltip.attr("transform", "translate(" + chartObj.xScale(chartObj.xFunct(d)) + "," + chartObj.yScale(yObjs[y].yFunct(d)) + ")");
-                yObjs[y].tooltip.select("text").text(chartObj.yFormatter(yObjs[y].yFunct(d)));
+                yObjs[y].tooltip.select("text").text(chartObj.formatAsFloat(yObjs[y].yFunct(d)));
                 minY = Math.min(minY, chartObj.yScale(yObjs[y].yFunct(d)));
             }
 

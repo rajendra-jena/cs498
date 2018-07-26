@@ -15,33 +15,47 @@
 
 <button class="collapsible"> About this Visualization </button>
 <div class="content">
- Wang Chun Wei (wcwei2) <br />
+ Wang Chun Wei (wcwei2@illinois.edu) <br />
  CS498 Data Visualization, Final Project, JS D3 Application <br />
- University of Illinois, Urbana-Champaign 
+ University of Illinois at Urbana-Champaign 
 <br>
 
-<h4>Hybrid Structure</h4>
+	<h4>Hybrid Structure</h4>
             <p>
-                The visualization uses the Interactive Slideshow structure. At the top of the page, there are 6 buttons
-                numbered 1 through 6. By clicking through these buttons sequentially, users are guided through the
-                slides.
-                Upon navigation, parameters are changed and annotations are updated to describe the new view.
-</p>
+                The visualization employs an <b>interactive slideshow</b> structure. <br />
+                On the sides of each chart, I have added <i>'next'</i> and <i>'previous'</i> buttons allowing users to guide forwards and backwards through the slides. 
+                Furthermore, at the bottom of the chart frame, I have added <i> 'dot / bullet indicators'</i>. This lets users know their porgress through the interactive slideshow. <br />
+                At the top of the chart frame, I have also included a <i>'page number'</i>.
+                By clicking through the charts, the user triggers parameter changes, and the bullet indicators and page numbers are updated to the new scene.
+			</p>
 
- <h4>Scene Utilization</h4>
+ 	<h4>Scene Utilization</h4>
             <p>
-                This visualization utilizes slides to create scenes. The scenes have a very consistent layout. On the
-                top
-                of the left side are four parameter selectors. Below those selectors is a block of annotation text that
-                provides insight into the data. On the right side is a line chart that displays the data that satisfies
-                the parameters.
+                We utilize slides (chart frames) to create scenes. The scenes have a consistent navigation layout so as to avoid disorientating the user. <br />
+
+                Two types of charts have been used in the scenes. 
+                Line charts are used because the data is time dependent.
+                Scatterplots are used to describe the interaction between two numeric data types. 
+
+                When the user hovers over the navigation buttons and dots, it triggers a change in color/shade providing a visual cue (affordance).
             </p>
 
-            <h4>Annotations</h4>
+    <h4>Annotations</h4>
             <p>
                 Each slide contains a block of text annotating the view with insights into the data. This text provides
                 some domain information to help the reader understand what they are seeing.
-</p>
+			</p>
+
+	<h4> Parameters </h4>
+			<p>
+
+			</p>
+
+	<h4> Triggers </h4>
+			<p> <i>Mouse click</i> events act as triggers to allow navigation between charts.
+				<i>Mouse over </i> events in charts
+				
+			</p>
 </div>
 
 
@@ -51,28 +65,27 @@
 <!-- slide show container -->
 <div class="slideshow_box">
 
-
 	<!-- CHART 1 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
   <div class="slides fade">
-  	<h1> The Cryptocurrency Rally: Outpacing Traditional Assets </h1>
-	2017 was a phenomenal year for cryptocurrencies. 
-	Had you invested $1 in Bitcoin at the beginning of the year, you would have accumulated $xxx by the end of the year.
-	Cryptocurrencies have outperformed Equities, Bonds, Commodities and Gold. <br>
-
-	<div class="page_number">1 / 3</div>
+  	<h1> Cumulative Profits from Investing in Traditional Assets </h1>
+	We examine the performance of broad asset classes over 2017. Equities have performed well. Real Estate has remained largely flat.  However, Commodities and Gold have struggled due to unfavourable macro / polictical conditions.
+	Compared to Bitcoin however ... <br>
+	<div class="page_number">1 / 5</div>
 	<div class="chart-wrapper" id="chart-line1">
 	</div>
-    <div class="footnote"> source: www.coinmarketcap.com </div>
+    <div class="footnote"> source: S&P 500, Goldman Sachs Commodities Index, US NAREIT</div>
   </div>
+
 
 
 	<!-- CHART 2 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
   <div class="slides fade">
-  	 <h1> The Bubble: Systemic Appreciation of All Coins </h1>
-	The 2017 Rally has been termed as a bubble. 
-	Below we plot the market capitaloization 
+  	<h1> The Bitcoin Rally: Outpacing Traditional Assets </h1>
+	2017 was a phenomenal year for Bitcoin. 
+	Had you invested $1 in Bitcoin at the beginning of the year, you would have accumulated $14.68 by the end of the year.
+	Despite various hacks and crashes, Bitcoin has completely outpaced traditional assets. <br>
 
-    <div class="page_number">2 / 3</div>
+	<div class="page_number">2 / 5</div>
 	<div class="chart-wrapper" id="chart-line2">
 	</div>
     <div class="footnote"> source: www.coinmarketcap.com </div>
@@ -81,20 +94,42 @@
 
 	<!-- CHART 3 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
   <div class="slides fade">
-  	 <h1>  Risk Return Characteristics </h1>
-	We see a positive trend between risk and returns in the cryptocurrency universe throughout 2017.  This is especially true with the larger market capitalization coins.
-	More generally we note that cryptocurrency risk is significantly higher than traditional asset classes. 
-    <div class="page_number">3 / 3</div>
-  	<div class="chart-wrapper" id="chart-line3">
+  	 <h1> Systemic Appreciation of All Cryptocurrencies </h1>
+	Bitcoin has not been alone. The year 2017 saw significant price appreciation in all cryptocurrencies. 
+	Many of the newer coins have rallied significantly by the end of the year due to increased news coverage and positive sentiment. 
+	As an investor (or a speculative trader), which coins should you consider buying? ...
+    <div class="page_number">3 / 5</div>
+	<div class="chart-wrapper" id="chart-line3">
 	</div>
-    <div class="footnote"> source: www.coinmarketcap.com </div>  
+    <div class="footnote"> source: www.coinmarketcap.com </div>
+  </div>
+
+
+	<!-- CHART 4 - Risk Return  -->
+  <div class="slides fade">
+  	<h1> Which Coins? The Risk - Return Relationship </h1>
+  	We examine a universe of 250+ crytocurrencies. <br>
+	We see a positive trend between risk and returns in the cryptocurrency universe throughout 2017.  This is especially true with the larger market capitalization coins, where higher risk is rewarded with higher returns.
+	For smaller capitalization coins, we find that risk is not neccessarily rewarded.
+    <div class="page_number">4 / 5</div>
+  	<div class="chart-wrapper" id="chart-line4">
+	</div>
+    <div class="footnote"> </div>  
 
   </div>
 
 
+	<!-- CHART 5 - Risk Liquidity -->
+  <div class="slides fade">
+  	 <h1> Which Coins? The Risk - Liquidity Relationship </h1>
+	We see a negative trend between risk and liquidity (traded volume) in the cryptocurrency universe throughout 2017. We find larger capitalization coins are traded more frequently and have lower risk.
+	Higher risk cryptocurrencies are generally less liquid.
+    <div class="page_number">5 / 5</div>
+  	<div class="chart-wrapper" id="chart-line5">
+	</div>
+    <div class="footnote"> source: www.coinmarketcap.com </div>  
 
-
-
+  </div>
 
   <!-- NEXT AND PREVIOUS ARROWS -->
   <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -108,6 +143,8 @@
   <span class="dot" onclick="currentSlide(1)"></span>
   <span class="dot" onclick="currentSlide(2)"></span>
   <span class="dot" onclick="currentSlide(3)"></span>
+  <span class="dot" onclick="currentSlide(4)"></span>
+  <span class="dot" onclick="currentSlide(5)"></span>
 </div>
 
 <br>
@@ -115,121 +152,169 @@
 
 
 
-
-
 <script type="text/javascript">
 
-var slideIndex = 1;
-showSlides(slideIndex);
+	var slideIndex = 1;
+	showSlides(slideIndex);
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
+	// Next/previous controls
+	function plusSlides(n) {
+	  showSlides(slideIndex += n);
+	}
 
-// Dot controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
+	// Dot controls
+	function currentSlide(n) {
+	  showSlides(slideIndex = n);
+	}
 
-// Toggle slide display and dots
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("slides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" dot_active", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " dot_active";
-} 
+	// Toggle slide display and dots
+	function showSlides(n) {
+	  var i;
+	  var slides = document.getElementsByClassName("slides");
+	  var dots = document.getElementsByClassName("dot");
+	  if (n > slides.length) {slideIndex = 1}
+	  if (n < 1) {slideIndex = slides.length}
+	  for (i = 0; i < slides.length; i++) {
+	      slides[i].style.display = "none";
+	  }
+	  for (i = 0; i < dots.length; i++) {
+	      dots[i].className = dots[i].className.replace(" dot_active", "");
+	  }
+	  slides[slideIndex-1].style.display = "block";
+	  dots[slideIndex-1].className += " dot_active";
+	} 
 
-// parse date
-var parseTime = d3.timeParse("%d/%m/%Y");
+	// parse date 
+	var parseTime = d3.timeParse("%d/%m/%Y");
 
-// Chart 1 and 2; Line Charts
-//https://github.com/weiwangchun/cs498/blob/master/rebased_prices.csv
+	// Chart 1 - Traditional Assets
+	var chart1_annotations = [{ x: new Date('06/20/2017'), y: 0.81, y0: 0.86, text: 'Crude prices fall as traders sketpical of OPEC cuts.', orient: 'left'},
+	{ x: new Date('07/14/2017'), y: 0.76, y0: 0.9, text: ' US crude inventories fall.', orient: 'left' },
+	{ x: new Date('05/15/2017'), y: 0.87, y0: 0.93, text: 'Russia in favor of extending OPEC cuts.', orient: 'left' },
+	{ x: new Date('09/03/2017'), y: 0.85, y0: 1.04, text: '- North Korea hydrogen bomb test.', orient: 'right' }];
+							
+	var chart1_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
+	var chart1_variables = {'Equities': {column: 'equities'},
+							'Commodities': {column: 'commodities'},
+							'Gold': {column: 'gold'},
+							'Real Estate': {column: 'REIT'}}
+
+	// Chart 2 - Compare Bitcoin with Traditional Assets
+	var chart2_annotations = [{ x: new Date('04/01/2017'), y: 3, y0: 1, text: 'Japan legalizes Bitcoin.', orient: 'left' },
+	{ x: new Date('06/15/2017'), y: 4, y0: 2.5, text: 'Bitcoin crashes 19% overnight.', orient: 'left' },
+	{ x: new Date('08/24/2017'), y: 6,  y0: 4.4,text: 'Segwit activated.', orient: 'left' },
+	{ x: new Date('09/12/2017'), y: 2, y0: 4.15, text: 'China cracks down on ICOs.', orient: 'right' },
+	{ x: new Date('12/19/2017'), y: 14, y0: 17.8, text: 'Korean exchange Youbit files for bankruptcy following hacks.', orient: 'left' }];
+	var chart2_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
+	var chart2_variables = {'Equities': {column: 'equities'},
+							'Commodities': {column: 'commodities'},
+							'Gold': {column: 'gold'},
+							'Real Estate': {column: 'REIT'},
+							'Bitcoin': {column: 'bitcoin'}}
+
+
+	//Chart 3 - Compare a Range of Cryptocurrencies
+	var chart3_annotations = [{ x: new Date('12/10/2017'), y: 250, y0: 142, text: 'CBOE futures open', orient: 'left' },
+	{ x: new Date('12/04/2017'), y: 200, y0: 57.55, text: 'CryptoKitties clogs up Ethereum blockchain', orient: 'left' },
+	{ x: new Date('09/12/2017'), y: 150, y0: 72.4, text: 'China bans ICOs.', orient: 'right' },
+	{ x: new Date('05/12/2017'), y: 100, y0: 37, text: 'WannaCry ransomware cryptoworm.', orient: 'right' }];
+	var chart3_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
+	var chart3_variables = {'Bitcoin': {column: 'bitcoin'}, 
+							'Litecoin': {column: 'litecoin'}, 
+							'Ethereum': {column: 'ethereum'}, 
+							'Ripple': {column: 'ripple'},
+							'Monero': {column: 'monero'},
+							'Dash': {column: 'dash'},
+							'NEM': {column: 'NEM'},
+							'Stellar': {column: 'stellar'}}
+
+	// Generate Chart 1, 2 and 3
     d3.csv('rebased_prices.csv')
     	.row(function(d){
 		 	return {
 		 		date:parseTime(d.Date), 
+		 		equities: +d.Equities,
+		 		commodities: +d.Commodities,
+		 		gold: +d.Gold,
+		 		REIT: +d.REIT,
 		 		bitcoin: +d.Bitcoin,
 		 		litecoin: +d.Litecoin,
-		 		ethereum: +d.Ethereum
+		 		ethereum: +d.Ethereum,
+		 		ripple: + d.Ripple,
+		 		tether: +d.Tether,
+		 		ardor: +d.Ardor,
+		 		lisk: +d.Lisk,
+		 		monero: +d.Monero,
+		 		dash: +d.Dash,
+		 		stratis: +d.Stratis,
+		 		waves: +d.Waves,
+		 		NEO: +d.NEO,
+		 		NEM: +d.NEM,
+		 		stellar: +d.Stellar
 		 	};
 		})
 		.get(function(error, data){
 
-			//console.log(data); // check data
+		    var chart1 = makeLineChart(data, 'date', chart1_variables, chart1_axisLabel, chart1_annotations);
+		    chart1.bind("#chart-line1");
+		    chart1.render();
 
-		    var chart = makeLineChart(data, 'date', {
-		        'Bitcoin': {column: 'bitcoin'},
-		        'Litecoin': {column: 'litecoin'},
-		        'Ethereum': {column: 'ethereum'}
-		    }, {xAxis: 'Date', yAxis: 'Amount'});
-		    chart.bind("#chart-line1");
-		    chart.render();
-
-		    var chart2 = makeLineChart(data, 'date', {
-		        'Bitcoin': {column: 'bitcoin'},
-		        'Ethereum': {column: 'ethereum'}
-		    }, {xAxis: 'Date', yAxis: 'Amount'});
+		    var chart2 = makeLineChart(data, 'date', chart2_variables, chart2_axisLabel, chart2_annotations);
 		    chart2.bind("#chart-line2");
 		    chart2.render();
 
-		});
-
-
-// Chart 3; Scatterplots
-    d3.csv('crypto_descriptive_2017.csv')
-    	.row(function(d){
-		 	return {
-		 		ticker: d.TICKER,
-		 		name: d.NAME,
-		 		return: +d.RETURN,
-		 		risk: +d.RISK,
-		 		mktcap: +d.MKTCAP,
-		 		turnover: +d.TURNOVER_RATIO,
-		 		volume: +d.VOLUME
-		 	};
-		})
-		.get(function(error, data){
-
-			console.log(data); // check data
-			var chart3 = makeScatterplot(data, {xAxis: 'Risk', yAxis: 'Return'});
-			chart3.bind("#chart-line3");
-			chart3.render();
-
+		    var chart3 = makeLineChart(data, 'date', chart3_variables, chart3_axisLabel, chart3_annotations);
+		    chart3.bind("#chart-line3");
+		    chart3.render();
 
 		});
 
 
 
+	// Chart 4 & 5: Scatterplots
+	var chart4_annotations = [{ x: 0.14, y: 0.025, y0: 0.016, text: 'Positive correlation between returns and risk for major coins', orient: 'left' }, 
+	{ x: 0.24, y: -0.005, y0: 0.005, text: 'Risk not rewarded for smaller coins  .', orient: 'left' }];
+	var chart5_annotations = [{ x: 0.24, y: 2, y0: 6, text: 'Negative correlation between risk and liquidity  .', orient: 'left' }];
+
+	    d3.csv('crypto_descriptive_2017.csv')
+	    	.row(function(d){
+			 	return {
+			 		ticker: d.TICKER,
+			 		name: d.NAME,
+			 		return: +d.RETURN,
+			 		risk: +d.RISK,
+			 		mktcap: +d.MKTCAP,
+			 		turnover: +d.TURNOVER_RATIO,
+			 		volume: +d.VOLUME
+			 	};
+			})
+			.get(function(error, data){
+				var chart4 = makeScatterplot(data, {xAxis: 'Daily Risk (Standard Deviation)', yAxis: 'Average Daily Return in 2017'}, chart4_annotations);
+				chart4.bind("#chart-line4");
+				chart4.render();
+
+				// log transform chart
+				var chart5 = makeScatterplot2(data, {xAxis: 'Daily Risk (Standard Deviation)', yAxis: 'Log (Average Daily Traded Value) (in USD)'}, chart5_annotations);
+				chart5.bind("#chart-line5");
+				chart5.render();
+			});
 
 
+	// Collapsible About Section
+	var coll = document.getElementsByClassName("collapsible");
+	var i;
 
-
-
-// Collapsible About Section
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-            content.style.display = "none";
-        } else {
-            content.style.display = "block";
-        }
-    });
-}
+	for (i = 0; i < coll.length; i++) {
+	    coll[i].addEventListener("click", function() {
+	        this.classList.toggle("active");
+	        var content = this.nextElementSibling;
+	        if (content.style.display === "block") {
+	            content.style.display = "none";
+	        } else {
+	            content.style.display = "block";
+	        }
+	    });
+	}
 
 
 

@@ -214,7 +214,6 @@ function makeLineChart(dataset, xName, yNames, annotations) {
 
     chart.render = function () {
 
-       // var yName, chartY=null;
         chart.objs.legend = chart.objs.mainDiv.append('div').attr("class", "legend");
 
         function toggleSeries(yName) {
@@ -228,8 +227,6 @@ function makeLineChart(dataset, xName, yNames, annotations) {
                 return toggleSeries(series);
             };
         }
-
-
 
         for (var yName in chart.groupObjs) {
             chartY = chart.groupObjs[yName];
@@ -257,8 +254,7 @@ function makeLineChart(dataset, xName, yNames, annotations) {
         }
 
 
-        //Draw tooltips
-        //Themust be a better way so we don't need a second loop. Issue is draw order so tool tips are on top
+        // tooltips
         chart.objs.tooltip = chart.objs.g.append("g")
             .attr("class", "tooltip")
             .style("display", "none");
@@ -324,7 +320,7 @@ function makeLineChart(dataset, xName, yNames, annotations) {
                 .attr('y', function(d) { return chart.yScale(d.y)})
                 .attr('id', function(d) {return 'tag'+ d.asset})
                 .attr("fill", "grey")
-               // .style("display", function(d) { if (chart.groupObjs[d.asset].visible == true) { return null; } else { return "none"; }; })
+                .style("display", function(d) { if (chart.groupObjs[d.asset].visible == true) { return null; } else { return "none"; }; })
                 .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end'})
                 .text(function(d) { return d.text});
             chart.objs.g.selectAll("text.label")

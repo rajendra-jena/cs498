@@ -118,11 +118,8 @@ body {
 
 
 
-
 /* Chart */    
 .chart-wrapper {
-  /*  max-width: 950px;
-    min-width: 300px; */
     margin: 0 auto;
     background-color: 'white';
 }

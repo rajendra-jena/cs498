@@ -214,19 +214,19 @@
 
 	//Chart 3 - Compare a Range of Cryptocurrencies
 	var chart3_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
-	var chart3_variables = {'Bitcoin': {column: 'bitcoin'}, 
-							'Litecoin': {column: 'litecoin'}, 
-							'Ethereum': {column: 'ethereum'}, 
-							'Ripple': {column: 'ripple'},
-							'Monero': {column: 'monero'},
-							'Tether': {column: 'tether'},
-							'Ardor': {column: 'ardor'},
-							'Lisk': {column: 'lisk'},
-							'Dash': {column: 'dash'},
-							'NEO': {column: 'NEO'},
-							'NEM': {column: 'NEM'},
-							'Stellar': {column: 'stellar'},
-							'Waves': {column: 'waves'}}
+	var chart3_variables = {'Bitcoin': {column: 'bitcoin', visible: true}, 
+							'Litecoin': {column: 'litecoin', visible: true}, 
+							'Ethereum': {column: 'ethereum', visible: true}, 
+							'Ripple': {column: 'ripple', visible: true},
+							'Monero': {column: 'monero', visible: true},
+							'Tether': {column: 'tether', visible: true},
+							'Ardor': {column: 'ardor', visible: false},
+							'Lisk': {column: 'lisk', visible: false},
+							'Dash': {column: 'dash', visible: false},
+							'NEO': {column: 'NEO', visible: false},
+							'NEM': {column: 'NEM', visible: false},
+							'Stellar': {column: 'stellar', visible: false},
+							'Waves': {column: 'waves', visible: false}}
 
 	// Generate Chart 1, 2 and 3
     d3.csv('rebased_prices.csv')
@@ -257,7 +257,7 @@
 
 		    var chart1 = makeLineChart(data, 'date', chart1_variables, chart1_annotations);
 		    chart1.bind({selector:"#chart-line1", axisLabels: chart1_axisLabel});
-		    chart1.render();
+		    chart1.render(); 
 
 		    var chart2 = makeLineChart(data, 'date', chart2_variables,  chart2_annotations);
 		    chart2.bind({selector:"#chart-line2", axisLabels: chart2_axisLabel});

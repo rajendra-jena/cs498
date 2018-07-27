@@ -28,6 +28,7 @@ function makeLineChart(dataset, xName, yObjs, axisLabel, annotationLabel) {
 
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
+
 //Formatter functions for the axes
     chartObj.formatAsNumber = d3.format(".0f");
     chartObj.formatAsCurrency = d3.format("$.2f");
@@ -85,14 +86,39 @@ function makeLineChart(dataset, xName, yObjs, axisLabel, annotationLabel) {
         //Create SVG element
         chartObj.svg = chartObj.chartDiv.append("svg").attr("class", "chart-area").attr("width", chartObj.width + (chartObj.margin.left + chartObj.margin.right)).attr("height", chartObj.height + (chartObj.margin.top + chartObj.margin.bottom)).append("g").attr("transform", "translate(" + chartObj.margin.left + "," + chartObj.margin.top + ")");
 
+
+        function toggleSeries(yName) {
+            var chartY = chartObj.groupObjs[yName];
+            chartY.visible = !chartY.visible;
+            if (chartY.visible==false) {
+                chartY.objs.legend.div.style("opacity","0.25");
+            } else {
+                chartY.objs.legend.div.style("opacity","1");
+            }
+            chart.update()
+        }
+
+        function getToggleFn(series) {
+            return function () {
+                return toggleSeries(series);
+            };
+        }
+
+
         // Draw Lines
         for (var y  in yObjs) {
-            yObjs[y].path = chartObj.svg.append("path").datum(chartObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
-                focus.style("display", null);
-
-            }).on("mouseout", function () {
-                focus.transition().delay(700).style("display", "none");
-            }).on("mousemove", mousemove);
+            yObjs[y].path = chartObj.svg.append("path").datum(chartObj.data)
+                .attr("class", "line")
+                .attr("d", yObjs[y].line)
+                .style("stroke", color(y))
+                .attr("data-series", y)  
+                .on("mouseover", function () {
+                    focus.style("display", null);
+                })
+                .on("mouseout", function () {
+                    focus.transition().delay(700).style("display", "none");
+                })
+                .on("mousemove", mousemove);
         }
         
         // Draw Y and X Axis
@@ -139,7 +165,13 @@ function makeLineChart(dataset, xName, yObjs, axisLabel, annotationLabel) {
         for (var y  in yObjs) {
             series = legend.append('div');
             series.append('div').attr("class", "series-marker").style("background-color", color(y));
-            series.append('p').text(y);
+            series.append('p').text(y)
+                .on("click", function() {
+                    d3.select(this)
+                        .style("font-size", function() {
+                          if (active) {return "14px"}
+                    })            
+                });
             yObjs[y].legend = series;
         }
 
@@ -152,6 +184,7 @@ function makeLineChart(dataset, xName, yObjs, axisLabel, annotationLabel) {
             .attr('y', function(d) { return chartObj.yScale(d.y)})
             .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end'})
             .text(function(d) { return d.text});
+      
 
          chartObj.svg.selectAll("text.label")
             .data(annotationLabel)
@@ -191,7 +224,6 @@ function makeLineChart(dataset, xName, yObjs, axisLabel, annotationLabel) {
            focus.select(".focus.year").text("Date: " + chartObj.xFunct(d));
 
         }
-
     };
     return chartObj;
 }

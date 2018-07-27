@@ -5,7 +5,7 @@
     <title>CS 498 DV (wcwei2)</title>
     <link rel="stylesheet" type="text/css" href="lineChartFormat.css">  <!-- CSS stylesheet for assignment -->
     <script src="https://d3js.org/d3.v4.min.js"></script>				<!-- D3 library for assignment -->
-    <script src="lineChart.js" charset="utf-8"></script>				<!-- JS D3 code for line chart -->
+    <script src="lineChart_toggle2.js" charset="utf-8"></script>				<!-- JS D3 code for line chart -->
     <script src="scatterPlot.js" charset="utf-8"></script>				<!-- JS D3 code for scatterplot -->
 </head>
 
@@ -35,12 +35,12 @@
 
  	<h4>Scene Utilization</h4>
             <p>
-                We utilize slides (chart frames) to create scenes. The scenes have a consistent layout so as to avoid disorientating the user. When the user hovers over the navigation buttons and dots, it triggers a change in color/shade providing a visual cue (affordance).<br />
+                We utilize slides (chart frames) to create scenes. The scenes have a consistent layout so as to avoid disorientating the user. <br /> When the user hovers over the navigation buttons and dots, it triggers a change in color/shade providing a visual cue (affordance).<br />
 
                 Two types of charts have been used in the scenes. 
                 <ul>
                 	<li> Line charts are used depict changes in asset prices over time. Multiple line charts are used to compare one asset with another. </li>
-                	<li> Scatterplots are used to describe the interaction between two numeric variables. </li>
+                	<li> Scatterplots are used to describe the interaction between two numeric variables. The radius of each dot represents the log market cap. </li>
             	</ul>
 
             </p>
@@ -54,23 +54,26 @@
 			</ul></p>
 
 	<h4> Parameters </h4>
-			<p>
-
-			</p>
+			<p><ul>
+				<li> The slide number parameter controls which chart to be displayed in this interactive slideshow. The user is able to change the slide number parameter by clicking on the back / forth arrows or progress dots and the bottom of the chart. </li>
+				<li>  Mouse coordinate parameters controls the tooltips, showing the date/time value and the prices associated with the date/time value.</li>
+			</ul></p>
 
 	<h4> Triggers </h4>
-			<p> <i>Mouse click</i> events act as triggers to allow navigation between charts.
-				<i>Mouse over </i> events in line charts triggers the tooltip that 
+			<p><ul>
+			 	<li> <i>Mouse click</i> events (on arrows and progress dots) act as triggers to allow navigation between charts. </li>
+				<li> <i>Mouse over </i> events in line charts triggers the tooltip to refresh with price values and associated date / time in upper left hand corner. (Scenes 1 to 3) </li>
+				<li> <i>Mouse over </i> events in scatterplot triggers a tooltip allowing users to view additional information on the selected cryptocurrency. (Scenes 4 to 5) </li>
 				
-			</p>
+			</ul></p>
 </div>
-
 
 
 
 
 <!-- slide show container -->
 <div class="slideshow_box">
+
 
 	<!-- CHART 1 - LINE CHART OF CRYPTOCURRENCY APPRECIATION -->
 	<div class="slides fade">
@@ -183,42 +186,47 @@
 	var parseTime = d3.timeParse("%d/%m/%Y");
 
 	// Chart 1 - Traditional Assets
-	var chart1_annotations = [{ x: new Date('06/20/2017'), y: 0.81, y0: 0.86, text: 'Crude prices fall as traders sketpical of OPEC cuts.', orient: 'left'},
-	{ x: new Date('07/14/2017'), y: 0.76, y0: 0.9, text: ' US crude inventories fall.', orient: 'left' },
-	{ x: new Date('05/15/2017'), y: 0.87, y0: 0.93, text: 'Russia in favor of extending OPEC cuts.', orient: 'left' },
-	{ x: new Date('09/03/2017'), y: 0.85, y0: 1.04, text: '- North Korea hydrogen bomb test.', orient: 'right' }];
+	var chart1_annotations = [{ x: new Date('06/20/2017'), y: 0.73, y0: 0.86, asset: 'Commodities', text: '- Crude prices fall as traders sketpical of OPEC cuts.', orient: 'right'},
+	{ x: new Date('07/14/2017'), y: 0.75, y0: 0.9,  asset: 'Commodities', text: '- US crude inventories fall.', orient: 'right' },
+	{ x: new Date('05/15/2017'), y: 0.71, y0: 0.93, asset: 'Commodities',  text: '- Russia in favor of extending OPEC cuts.', orient: 'right' },
+	{ x: new Date('09/03/2017'), y: 0.77, y0: 1.04, asset: 'Gold',  text: '- North Korea hydrogen bomb test.', orient: 'right' }];
 							
 	var chart1_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
-	var chart1_variables = {'Equities': {column: 'equities'},
-							'Commodities': {column: 'commodities'},
-							'Gold': {column: 'gold'},
-							'Real Estate': {column: 'REIT'}}
+	var chart1_variables = {'Equities': {column: 'equities', visible: true},
+							'Commodities': {column: 'commodities', visible: true},
+							'Gold': {column: 'gold', visible: true},
+							'Real Estate': {column: 'REIT', visible: true}}
 
 	// Chart 2 - Compare Bitcoin with Traditional Assets
-	var chart2_annotations = [{ x: new Date('04/01/2017'), y: 3, y0: 1, text: 'Japan legalizes Bitcoin.', orient: 'left' },
-	{ x: new Date('06/15/2017'), y: 4, y0: 2.5, text: 'Bitcoin crashes 19% overnight.', orient: 'left' },
-	{ x: new Date('08/24/2017'), y: 6,  y0: 4.4,text: 'Segwit activated.', orient: 'left' },
-	{ x: new Date('09/12/2017'), y: 2, y0: 4.15, text: 'China cracks down on ICOs.', orient: 'right' },
-	{ x: new Date('12/19/2017'), y: 14, y0: 17.8, text: 'Korean exchange Youbit files for bankruptcy following hacks.', orient: 'left' }];
+	var chart2_annotations = [{ x: new Date('04/01/2017'), y: 3, y0: 1, asset: 'Bitcoin', text: 'Japan legalizes Bitcoin.', orient: 'left' },
+	{ x: new Date('05/12/2017'), y: 3, y0: 1, asset: 'Bitcoin', text: 'WannaCry ransomware cryptoworm.', orient: 'right' },
+	{ x: new Date('06/15/2017'), y: 4, y0: 2.5,  asset: 'Bitcoin',text: 'Bitcoin crashes 19% overnight.', orient: 'left' },
+	{ x: new Date('08/24/2017'), y: 6,  y0: 4.4, asset: 'Bitcoin',text: 'Segwit activated.', orient: 'left' },
+	{ x: new Date('09/12/2017'), y: 2, y0: 4.15,  asset: 'Bitcoin',text: 'China bans ICOs.', orient: 'right' },
+	{ x: new Date('12/10/2017'), y: 2, y0: 4.3, asset: 'Bitcoin', text: 'CBOE futures open', orient: 'left' }];
 	var chart2_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
-	var chart2_variables = {'Equities': {column: 'equities'},
-							'Commodities': {column: 'commodities'},
-							'Gold': {column: 'gold'},
-							'Real Estate': {column: 'REIT'},
-							'Bitcoin': {column: 'bitcoin'}}
+	var chart2_variables = {'Equities': {column: 'equities', visible: true},
+							'Commodities': {column: 'commodities', visible: false},
+							'Gold': {column: 'gold', visible: false},
+							'Real Estate': {column: 'REIT', visible: false},
+							'Bitcoin': {column: 'bitcoin', visible: true}}
 
 
 	//Chart 3 - Compare a Range of Cryptocurrencies
-	var chart3_annotations = [{ x: new Date('12/10/2017'), y: 250, y0: 70, text: 'CBOE futures open', orient: 'left' },
-	{ x: new Date('12/04/2017'), y: 200, y0: 57.55, text: 'CryptoKitties clogs up Ethereum blockchain', orient: 'left' },
-	{ x: new Date('09/12/2017'), y: 150, y0: 33, text: 'China bans ICOs.', orient: 'right' },
-	{ x: new Date('05/12/2017'), y: 100, y0: 33, text: 'WannaCry ransomware cryptoworm.', orient: 'right' }];
 	var chart3_axisLabel =  {xAxis: 'Date', yAxis: 'Cumulative Profits (starting value $1)'};
 	var chart3_variables = {'Bitcoin': {column: 'bitcoin'}, 
 							'Litecoin': {column: 'litecoin'}, 
 							'Ethereum': {column: 'ethereum'}, 
 							'Ripple': {column: 'ripple'},
-							'Monero': {column: 'monero'}}
+							'Monero': {column: 'monero'},
+							'Tether': {column: 'tether'},
+							'Ardor': {column: 'ardor'},
+							'Lisk': {column: 'lisk'},
+							'Dash': {column: 'dash'},
+							'NEO': {column: 'NEO'},
+							'NEM': {column: 'NEM'},
+							'Stellar': {column: 'stellar'},
+							'Waves': {column: 'waves'}}
 
 	// Generate Chart 1, 2 and 3
     d3.csv('rebased_prices.csv')
@@ -247,16 +255,16 @@
 		})
 		.get(function(error, data){
 
-		    var chart1 = makeLineChart(data, 'date', chart1_variables, chart1_axisLabel, chart1_annotations);
-		    chart1.bind("#chart-line1");
+		    var chart1 = makeLineChart(data, 'date', chart1_variables, chart1_annotations);
+		    chart1.bind({selector:"#chart-line1", axisLabels: chart1_axisLabel});
 		    chart1.render();
 
-		    var chart2 = makeLineChart(data, 'date', chart2_variables, chart2_axisLabel, chart2_annotations);
-		    chart2.bind("#chart-line2");
+		    var chart2 = makeLineChart(data, 'date', chart2_variables,  chart2_annotations);
+		    chart2.bind({selector:"#chart-line2", axisLabels: chart2_axisLabel});
 		    chart2.render();
 
-		    var chart3 = makeLineChart(data, 'date', chart3_variables, chart3_axisLabel, chart3_annotations);
-		    chart3.bind("#chart-line3");
+		    var chart3 = makeLineChart(data, 'date', chart3_variables);
+		    chart3.bind({selector:"#chart-line3", axisLabels: chart3_axisLabel});
 		    chart3.render();
 
 		});

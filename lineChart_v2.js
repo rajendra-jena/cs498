@@ -4,7 +4,7 @@
 
 */
 
-function generateLineChart(dataset, xAxisName, yAxisNames, annotations) {
+function makeLineChart(dataset, xAxisName, yAxisNames, axisLabel, annotations) {
 
 	/* Generate Multiple Line Chart
 	dataset: 			the timeseries data from csv file 
@@ -17,14 +17,14 @@ function generateLineChart(dataset, xAxisName, yAxisNames, annotations) {
 	// initialize chart object
 	var chart = {};
 	chart.data = dataset;
-	chart.xAxisName = xAxisName;
-	chart.yAxisNames = yAxisNames;
+	chart.xName = xAxisName;
+	chart.yNames = yAxisNames;
 
 	chart.groupObjs = {};
 	chart.objs = {mainDiv: null, 
 				chartDiv: null,
 				g: null,
-				xAxis: null,
+				xAxis: null,			
 				yAxis: null,
 				tooltip: null,
 				legend: null};
@@ -92,16 +92,16 @@ function generateLineChart(dataset, xAxisName, yAxisNames, annotations) {
 		};
 		chart.bisectYear = d3.bisector(chart.xFunct).left; 
 
-		for (var yName in chart.yAxisNames) {
+		for (var yName in chart.yNames) {
 			chart.groupObjs[yName] = {yFunct: null, visible: null, objs: {}};			
 		}
 
 		chart.yFuncts = [];
-		for (yName in chart.yAxisNames) {
+		for (var yName in chart.yNames) {
 			console.log(yName);
 			chartY = chart.groupObjs[yName];
 			chartY.visible = true;
-			chartY.yFunct = function (d) { return d[chart.yAxisNames[yName].column]; }  // revisit this!
+			chartY.yFunct = function (d) { return d[chart.yNames[yName].column]; }  // revisit this!
 		}
 		
 	}
@@ -195,8 +195,8 @@ function generateLineChart(dataset, xAxisName, yAxisNames, annotations) {
                 chart.xAxisLabel = selected.axisLabels.xAxis;
                 chart.yAxisLabel = selected.axisLabels.yAxis;
             } else {
-                chart.xAxisLabel = chart.xAxisName;
-                chart.yAxisLabel = chart.yAxisNames[0];
+                chart.xAxisLabel = chart.xName;
+                chart.yAxisLabel = chart.yNames[0];
             }
             if (selected.colors) {
                 color = updateColorFunction(selected.colors);
@@ -342,15 +342,6 @@ function generateLineChart(dataset, xAxisName, yAxisNames, annotations) {
             chartY.objs.tooltip = tooltip;
         }
 
-        // Annotations
-        chart.objs.chartDiv.selectAll("text.label")
-            .data(annotations)
-            .enter()
-            .append("text")
-            .attr('x', function(d) { return chart.xScale(d.x)})
-            .attr('y', function(d) { return chart.yScale(d.y)})
-            .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end'})
-            .text(function(d) { return d.text});
 
 
         // Hover

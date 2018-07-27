@@ -118,11 +118,12 @@ function makeLineChart(dataset, xName, yNames, annotations) {
 
 
     chart.bind = function (chartOptions) {
+
         // chart bind options
         function getChartOptions() {
             // selector
             chart.objs.mainDiv = d3.select(chartOptions.selector);
-            chart.selector = chartOptions.selector + " .inner-box";
+            chart.selector = chartOptions.selector + " .inner-box"; 
 
              // set Axis Labels 
             chart.xAxisLabel = chartOptions.axisLabels.xAxis;
@@ -162,8 +163,7 @@ function makeLineChart(dataset, xName, yNames, annotations) {
                 .x(function (d) {return chart.xScale(chart.xFunct(d));})
                 .y(yScaleFunc(yName))
                 .curve(d3.curveBasis);
-        }
-
+        };
 
         chart.objs.mainDiv.style("max-width", chart.divWidth + "px");
         chart.objs.mainDiv.append("div")
@@ -174,7 +174,7 @@ function makeLineChart(dataset, xName, yNames, annotations) {
         chart.objs.chartDiv = d3.select(chart.selector);
         d3.select(window).on('resize.' + chart.selector, chart.update);
 
-        // Create the svg
+        // create svg
         chart.objs.g = chart.objs.chartDiv.append("svg")
             .attr("class", "chart-area")
             .attr("width", chart.width + (chart.margin.left + chart.margin.right))
@@ -229,6 +229,8 @@ function makeLineChart(dataset, xName, yNames, annotations) {
             };
         }
 
+
+
         for (var yName in chart.groupObjs) {
             chartY = chart.groupObjs[yName];
             chartY.objs.g = chart.objs.g.append("g");
@@ -248,10 +250,12 @@ function makeLineChart(dataset, xName, yNames, annotations) {
             chartY.objs.legend.div = chart.objs.legend.append('div').on("click",getToggleFn(yName));
             chartY.objs.legend.icon = chartY.objs.legend.div.append('div')
                 .attr("class", "series-marker")
+                .attr("id", "icon"+ yName)
                 .style("background-color", colorFunct(yName));
             chartY.objs.legend.text = chartY.objs.legend.div.append('p').text(yName);
 
         }
+
 
         //Draw tooltips
         //Themust be a better way so we don't need a second loop. Issue is draw order so tool tips are on top
@@ -304,10 +308,11 @@ function makeLineChart(dataset, xName, yNames, annotations) {
                 chart.objs.tooltip.style("display", "none");
             }).on("mousemove", mouseHover);
 
-        // this could be improved.
+        // this could be improved.        
         for (var yName in chart.groupObjs) {
             toggleSeries(yName);
         }
+        
 
         // Add Annotations 
         if (annotations) {
@@ -315,11 +320,11 @@ function makeLineChart(dataset, xName, yNames, annotations) {
                 .data(annotations)
                 .enter()
                 .append("text")
-                .attr('x', function(d) {  return chart.xScale(d.x)})
+                .attr('x', function(d) { return chart.xScale(d.x)})
                 .attr('y', function(d) { return chart.yScale(d.y)})
                 .attr('id', function(d) {return 'tag'+ d.asset})
                 .attr("fill", "grey")
-                .style("display", function(d) { if (chart.groupObjs[d.asset].visible == true) { return null } else { return "none"}; })
+               // .style("display", function(d) { if (chart.groupObjs[d.asset].visible == true) { return null; } else { return "none"; }; })
                 .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end'})
                 .text(function(d) { return d.text});
             chart.objs.g.selectAll("text.label")
@@ -332,10 +337,10 @@ function makeLineChart(dataset, xName, yNames, annotations) {
                 .attr("y2", function(d) {  return chart.yScale(d.y)})
                 .attr('id', function(d) {return 'tag'+ d.asset})
                 .style("stroke", "grey")
-                .style("display", function(d) { if (chart.groupObjs[d.asset].visible == true) { return null } else { return "none"}; })
+                .style("display", function(d) { if (chart.groupObjs[d.asset].visible == true) { return null;} else { return "none";}; })
                 .style("opacity", 0.7)
                 .style("stroke-dasharray", "3,1");
-        }
+        };
 
         return chart;
 

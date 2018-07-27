@@ -140,9 +140,6 @@ function makeScatterplot(data, axisLabel, annotationLabel) {
             .style("stroke", "black")
             .style("stroke-dasharray", "1,3");
 
-
-        console.log(chartObj.xScale(0.1));
-
 		return chartObj;
    }
 

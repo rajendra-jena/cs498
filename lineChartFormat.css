@@ -1,0 +1,225 @@
+
+body {
+  font: 16px 'Helvetica';
+}
+
+
+/* Slideshow styles */
+
+/* interactive slideshow container */
+.slideshow_box {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.slides {
+  display: none; /* hide the slides until needed */
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 10px; 
+  color: dodgerblue;
+  font-size: 40px; 
+  transition: 1s ease;
+  border-radius: 5px 0 0 5px;
+}
+
+.next {
+  right: 0;
+  border-radius: 0 5px 5px 0;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+/* Caption text */
+.footnote {
+  color: grey;
+  font-size: 14px;
+  font-style: italic;
+  /*padding: 8px 12px; */
+  position: absolute;
+  bottom: 4px;
+  width: 100%;
+  text-align: right;
+}
+
+/* Displays page number on top right hand corner */
+.page_number {
+  color: dodgerblue;
+  font-size: 14px;
+  position: absolute;
+  top: 0; 
+  right: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.5s ease;
+}
+
+.dot_active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation between slides */
+.fade {
+  animation-name: fade;
+  animation-duration: 2s;
+}
+
+@keyframes fade {
+  from {opacity: .2}
+  to {opacity: 1}
+}
+
+
+/* Collapsible About This Visualization Section */
+.collapsible, .content {
+    background-color: rgba(0, 0, 0, 0);
+    color: dodgerblue;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    padding: 0 18px; 
+    margin: 0 auto;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+}
+
+.active, .collapsible:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.content {
+    display: none;
+    overflow: hidden;
+    background-color: white;
+    color: black;
+     font: 14px 'Helvetica';
+}
+
+
+/* Chart */    
+.chart-wrapper {
+    margin: 0 auto;
+    background-color: 'white';
+}
+
+.chart-wrapper .inner-wrapper {
+    position: relative;
+    padding-bottom: 50%;
+    width: 100%;
+}
+
+.chart-wrapper .outer-box {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+}
+
+.chart-wrapper .inner-box {
+    width: 900px;
+    height: 480px;
+}
+
+.chart-wrapper text {
+  font-family: 'Helvetica';
+  font-size: 11px;
+}
+
+.chart-wrapper p {
+    font-size: 12px;
+    margin-top:5px;
+    margin-bottom: 40px;
+}
+
+.chart-wrapper .axis path,
+.chart-wrapper .axis line {
+    fill: none;
+    stroke: #1F1F2E;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+
+}
+.chart-wrapper .axis path {
+  stroke-width: 2px;
+}
+
+.chart-wrapper .line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 2px;
+}
+
+.chart-wrapper .legend  {
+    min-width: 200px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    font-size: 16px;
+    padding: 10px 40px;
+}
+.chart-wrapper .legend > div {
+    margin: 0px 25px 10px 0px;
+    flex-grow: 0;
+}
+.chart-wrapper .legend p {
+    display:inline;
+    font-size: 0.8em;
+    font-family: 'Helvetica';
+    font-weight: 600;
+}
+.chart-wrapper .legend .series-marker {
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    background-color: dodgerblue;
+    display: inline-block;
+    margin-right: 4px;
+    margin-bottom: -0.16rem;
+}
+
+.chart-wrapper .overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.chart-wrapper .focus circle {
+  fill: none;
+  stroke: dodgerblue;
+  stroke-width: 2px;
+  fill-opacity: 15%;
+}
+
+/*  prices tooltip  */
+.chart-wrapper .focus rect {
+    fill: dodgerblue;
+    opacity: 0.5;
+    border-radius: 4px;
+    font: 14px sans-serif;
+    border-radius: 4px; 
+}
+
+.chart-wrapper .focus line {
+    stroke: dodgerblue;
+    stroke-dasharray: 3,3;
+    stroke-width: 1;
+    opacity: 0.5;
+}
+
+
